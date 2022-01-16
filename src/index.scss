@@ -26,7 +26,7 @@ $blue: #4361EE;
   background-color: $bg;
   color: #fff;
   display: grid;
-  grid-template-rows: 1fr 5fr;
+  grid-template-rows: auto 5fr;
   user-select: none;
   gap: $gap;
 }
@@ -60,6 +60,9 @@ $blue: #4361EE;
     .diff {
       padding: 0.5rem 1rem;
       background-color: $success;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .question-text {
@@ -71,7 +74,6 @@ $blue: #4361EE;
   .answers {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    // place-items: center;
     gap: 50px;
     padding: 20px;
     .answer {
@@ -147,3 +149,16 @@ $blue: #4361EE;
   }
 }
 
+@media (max-width: 400px) {
+  .question .answers {
+    grid-template-columns: 1fr;
+    gap: $gap;
+    padding: 0;
+  }
+  .question-list {
+    display: none;
+  }
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
