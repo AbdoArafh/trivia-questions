@@ -3,20 +3,48 @@ import Question from './components/question';
 import QuestionList from './components/QustionList';
 
 export function App() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [index, setIndex] = useState(0);
-  const handleAnswer = () => {
-    setIndex((i) => (i+1) % 10);
+  const [amount, setAmount] = useState(15);
+
+  const loadData = () => {
+    fetch(`https://opentdb.com/api.php?amount=${amount}&category=31&difficulty=easy`)
+      .then(res => res.json())
+      .then(d => {
+        setData(d.results);
+        setLoaded(true);
+      });
   }
-  useEffect( () => {
-    fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple")
-    .then(res => res.json())
-    .then(d => {
-      setData(d.results);
-      setLoaded(true);
+
+  const nextQuestion = () => {
+    document.querySelectorAll(".answer")
+      .forEach(el => {
+        el.classList.remove("wrong");
+        el.classList.remove("correct");
+      });
+    setIndex((i) => {
+      if ((i + 1) % amount === 0)  {
+        loadData();
+        setLoaded(false);
+      }
+      return (i+1) % amount;
     });
-  } ,[setData]);
+  }
+
+  const handleAnswer = (event) => {
+    if (event.target.dataset.correct === "false") {
+      event.target.classList.add("wrong");
+      return;
+    }
+    event.target.classList.add("correct");
+    window.setTimeout(
+      nextQuestion,
+      1000);
+  }
+
+  useEffect(loadData, []);
+
   return (
     <>
       <div class="title">Cool Questions?</div>
@@ -27,7 +55,7 @@ export function App() {
           : 
           <div className="loading rounded"></div>
         }
-        <QuestionList index={index}/>
+        <QuestionList index={index} amount={amount}/>
       </div>
     </>
   )

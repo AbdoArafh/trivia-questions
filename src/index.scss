@@ -28,6 +28,7 @@ $blue: #4361EE;
   display: grid;
   grid-template-rows: 1fr 5fr;
   user-select: none;
+  gap: $gap;
 }
 
 .title {
@@ -101,6 +102,8 @@ $blue: #4361EE;
   flex-direction: column;
   justify-content: space-between;
   background-color: $purple;
+  margin-bottom: $gap;
+  overflow: hidden;
   .question-item {  
     flex: 2 1 auto;
     display: flex;

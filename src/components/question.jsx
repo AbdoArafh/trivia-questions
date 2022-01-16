@@ -10,6 +10,17 @@ export default function Question({data, handleAnswer}) {
         el.innerHTML = html;
         return el.textContent;
     }
+    const answers = incorrect_answers.map((answer) => (
+        <div data-correct="false" className="answer rounded" onClick={handleAnswer}>
+            {decodeHTML(answer)}
+        </div>
+    ));
+    answers.splice(
+        Math.round(Math.random() * answers.length),
+        0,
+        <div data-correct="true" className="answer rounded" onClick={handleAnswer}>{decodeHTML(correct_answer)}</div>
+    )
+        
     return (
         <div class="question">
             <div class="info">
@@ -24,12 +35,7 @@ export default function Question({data, handleAnswer}) {
                 {decodeHTML(question)}
             </div>
             <div class="answers">
-                <div className="answer" onClick={handleAnswer}>{decodeHTML(correct_answer)}</div>
-                {incorrect_answers.map((answer) => (
-                    <div className="answer" key={answer}>
-                        {decodeHTML(answer)}
-                    </div>
-                ))}
+                {answers}
             </div>
         </div>
     )
