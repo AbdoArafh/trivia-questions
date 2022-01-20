@@ -7,6 +7,9 @@ export function App() {
   const [loaded, setLoaded] = useState(false);
   const [index, setIndex] = useState(0);
   const [amount, setAmount] = useState(15);
+  const [correct, setCorrect] = useState([]);
+  const [wrong, setWrong] = useState([]);
+  const [available, setAvailable] = useState(true);
 
   const loadData = () => {
     fetch(`https://opentdb.com/api.php?amount=${amount}&category=31&difficulty=easy`)
@@ -30,14 +33,25 @@ export function App() {
       }
       return (i+1) % amount;
     });
+    setAvailable(true);
   }
 
   const handleAnswer = (event) => {
+    if (!available) return;
     if (event.target.dataset.correct === "false") {
       event.target.classList.add("wrong");
-      return;
+      setWrong(prev => {
+        prev.push(index);
+        return prev;
+      });
+    } else {
+      event.target.classList.add("correct");
+      setCorrect(prev => {
+        prev.push(index);
+        return prev;
+      });
     }
-    event.target.classList.add("correct");
+    setAvailable(false);
     window.setTimeout(
       nextQuestion,
       1000);
@@ -55,7 +69,7 @@ export function App() {
           : 
           <div className="loading rounded"></div>
         }
-        <QuestionList index={index} amount={amount}/>
+        <QuestionList index={index} amount={amount} correct={correct} wrong={wrong}/>
       </div>
     </>
   )

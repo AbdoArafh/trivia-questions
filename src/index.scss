@@ -118,6 +118,12 @@ $blue: #4361EE;
   .previous {
     background-color: rgba(white, 0.1);
   }
+  .correct {
+    background-color: $success;
+  }
+  .wrong {
+    background-color: $failure;
+  }
 }
 
 .rounded {
@@ -149,16 +155,17 @@ $blue: #4361EE;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 550px) {
   .question .answers {
     grid-template-columns: 1fr;
     gap: $gap;
     padding: 0;
   }
-  .question-list {
-    display: none;
-  }
   .content {
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+  }
+  #app {
+    height: auto;
   }
 }
